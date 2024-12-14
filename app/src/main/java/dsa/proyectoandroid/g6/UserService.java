@@ -23,6 +23,6 @@ public interface UserService {
     Call<User> login(@Body User credentials);
 
     @PUT("dsaApp/usuarios/")
-    Call<Void> updateUser(@Body User user);
+    Call<User> updateUser(@Body User user);
 }
 

@@ -25,13 +25,14 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
-    private SavedPreferences savedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
     public void Register(View v){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -49,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     // Código 200, iniciar nueva actividad
-                    savedPreferences.setMy_user(response.body());
+                    User loggedUser = response.body();
+                    SavedPreferences.getInstance().setMy_user(loggedUser);
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
                     finish();

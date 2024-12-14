@@ -1,9 +1,16 @@
 package dsa.proyectoandroid.g6.models;
 
 public class SavedPreferences {
+    private static SavedPreferences instance;
     private User my_user;
 
-    public SavedPreferences() {
+
+    private SavedPreferences() {}
+
+    public static SavedPreferences getInstance(){
+        if(instance==null)
+            instance = new SavedPreferences();
+        return instance;
     }
 
     public SavedPreferences(User my_user) {
