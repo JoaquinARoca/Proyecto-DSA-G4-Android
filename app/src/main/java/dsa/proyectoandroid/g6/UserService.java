@@ -20,7 +20,7 @@ public interface UserService {
     Call<User> createUser(@Body User user);
 
     @POST("dsaApp/usuarios/login")
-    Call<Void> login(@Body User credentials);
+    Call<User> login(@Body User credentials);
 
     @PUT("dsaApp/usuarios/")
     Call<Void> updateUser(@Body User user);

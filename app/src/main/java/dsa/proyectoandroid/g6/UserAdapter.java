@@ -50,8 +50,8 @@ public class UserAdapter {
         call.enqueue(callback);  // Llama a la API de manera asíncrona
     }
 
-    public void login(User credentials, Callback<Void> callback) {
-        Call<Void> call = userService.login(credentials);
+    public void login(User credentials, Callback<User> callback) {
+        Call<User> call = userService.login(credentials);
         call.enqueue(callback);
     }
 

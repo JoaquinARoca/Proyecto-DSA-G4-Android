@@ -12,11 +12,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import dsa.proyectoandroid.g6.R;
 import dsa.proyectoandroid.g6.UserAdapter;
+import dsa.proyectoandroid.g6.models.SavedPreferences;
 import dsa.proyectoandroid.g6.models.User;
 
 public class ProfileEditActivity extends AppCompatActivity {
     private int cont = 0;
     private UserAdapter userAdapter;
+    private SavedPreferences savedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             cont++;
         }else {
+            
             String nombre = ((EditText) findViewById(R.id.usertbx)).getText().toString();
             String pass1 = ((EditText) findViewById(R.id.passwdtbx)).getText().toString();
 

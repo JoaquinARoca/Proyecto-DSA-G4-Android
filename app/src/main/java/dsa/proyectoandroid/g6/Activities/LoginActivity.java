@@ -17,6 +17,7 @@ import dsa.proyectoandroid.g6.R;
 import dsa.proyectoandroid.g6.RetrofitClient;
 import dsa.proyectoandroid.g6.UserAdapter;
 import dsa.proyectoandroid.g6.UserService;
+import dsa.proyectoandroid.g6.models.SavedPreferences;
 import dsa.proyectoandroid.g6.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
+    private SavedPreferences savedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         User credentials = new User(null, nombre, password); // Enviamos solo nombre y contraseña
 
         UserService service = RetrofitClient.getRetrofitInstance().create(UserService.class);
-        Call<Void> call = service.login(credentials);
+        Call<User> call = service.login(credentials);
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     // Código 200, iniciar nueva actividad
+                    savedPreferences.setMy_user(response.body());
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
                     finish();
@@ -60,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
