@@ -1,0 +1,57 @@
+package dsa.proyectoandroid.g6;
+import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+
+import dsa.proyectoandroid.g6.models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+
+public class UserAdapter {
+    private User u;
+    private OnUserClickListener listener;
+    private Context context;
+
+    public interface OnUserClickListener{void onUserClick(User u);}
+
+    public UserAdapter(User u,OnUserClickListener listener, Context context ){
+        this.u=u;
+        this.listener = listener;
+        this.context = context;
+    }
+
+    private UserService userService;
+
+    public UserAdapter() {
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        userService = retrofit.create(UserService.class);
+    }
+
+    public void getUsers(Callback<List<User>> callback) {
+        Call<List<User>> call = userService.getUsers();
+        call.enqueue(callback);
+    }
+
+    public void getUserByName(String name, Callback<User> callback) {
+        Call<User> call = userService.getUserByName(name);
+        call.enqueue(callback);
+    }
+
+    public void createUser(User user, Callback<User> callback) {
+        Call<User> call = userService.createUser(user);
+        call.enqueue(callback);  // Llama a la API de manera asíncrona
+    }
+
+    public void login(User credentials, Callback<Void> callback) {
+        Call<Void> call = userService.login(credentials);
+        call.enqueue(callback);
+    }
+}
