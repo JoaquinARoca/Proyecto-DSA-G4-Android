@@ -1,4 +1,6 @@
 package dsa.proyectoandroid.g6;
+import java.util.List;
+
 import dsa.proyectoandroid.g6.models.Product;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,5 +17,8 @@ public interface ProductService {
 
     @GET("/productos/{id}/precio")
     Call<Double> getProductPrice(@Path("id") String id);
+
+    @GET("/productos")
+    Call<List<Product>> getAllProducts();
 }
 
