@@ -2,16 +2,16 @@ package dsa.proyectoandroid.g6.models;
 
 public class Product {
     private String id;
-    private String name;
+    private String nombre;
     private Double precio;
 
     //Constructors
     public Product() {
     }
 
-    public Product(String id, String name, Double precio) {
+    public Product(String id, String nombre, Double precio) {
         this.id = id;
-        this.name = name;
+        this.nombre = nombre;
         this.precio = precio;
     }
 
@@ -24,12 +24,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Double getPrecio() {

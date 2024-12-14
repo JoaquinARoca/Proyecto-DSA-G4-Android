@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Código 200, iniciar nueva actividad
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
+                    finish();
                 } else if (response.code() == 401) {
                     // Código 401, credenciales incorrectas
                     Toast.makeText(LoginActivity.this, "Error en nombre o contraseña", Toast.LENGTH_LONG).show();

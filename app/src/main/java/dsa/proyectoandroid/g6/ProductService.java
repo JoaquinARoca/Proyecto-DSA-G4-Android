@@ -9,16 +9,16 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ProductService {
-    @POST("/productos")
+    @POST("dsaApp/productos")
     Call<Product> createProduct(@Body Product product);
 
-    @GET("/productos/{id}")
+    @GET("dsaApp/productos/{id}")
     Call<Product> getProductById(@Path("id") String id);
 
-    @GET("/productos/{id}/precio")
+    @GET("dsaApp/productos/{id}/precio")
     Call<Double> getProductPrice(@Path("id") String id);
 
-    @GET("/productos")
+    @GET("dsaApp/productos")
     Call<List<Product>> getAllProducts();
 }
 

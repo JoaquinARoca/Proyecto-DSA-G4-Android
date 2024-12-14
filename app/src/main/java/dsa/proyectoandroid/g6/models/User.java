@@ -2,21 +2,21 @@ package dsa.proyectoandroid.g6.models;
 
 public class User {
     private String id;
-    private String name;
-    private String passwd;
+    private String nombre;
+    private String contraseña;
 
     public User() {
     }
 
     public User(String id, String name, String passwd) {
         this.id = id;
-        this.name = name;
-        this.passwd = passwd;
+        this.nombre = name;
+        this.contraseña = passwd;
     }
 
     public User(String passwd, String name) {
-        this.passwd = passwd;
-        this.name = name;
+        this.contraseña = passwd;
+        this.nombre = name;
     }
 
     public String getId() {
@@ -28,18 +28,18 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return nombre;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nombre = name;
     }
 
     public String getPasswd() {
-        return passwd;
+        return contraseña;
     }
 
     public void setPasswd(String passwd) {
-        this.passwd = passwd;
+        this.contraseña = passwd;
     }
 }

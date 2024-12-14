@@ -54,4 +54,8 @@ public class UserAdapter {
         Call<Void> call = userService.login(credentials);
         call.enqueue(callback);
     }
+
+    public void updateUser(User user, Callback<User> callback){
+
+    }
 }

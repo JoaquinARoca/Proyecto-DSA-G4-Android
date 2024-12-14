@@ -4,21 +4,25 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import java.util.List;
 
 public interface UserService {
-    @GET("/usuarios")
+    @GET("dsaApp/usuarios")
     Call<List<User>> getUsers();
 
-    @GET("/usuarios/{nombre}")
+    @GET("dsaApp/usuarios/{nombre}")
     Call<User> getUserByName(@Path("nombre") String name);
 
-    @POST("/usuarios")
+    @POST("dsaApp/usuarios")
     Call<User> createUser(@Body User user);
 
-    @POST("/usuarios/login")
+    @POST("dsaApp/usuarios/login")
     Call<Void> login(@Body User credentials);
+
+    @PUT("dsaApp/usuarios/")
+    Call<Void> updateUser(@Body User user);
 }
 
