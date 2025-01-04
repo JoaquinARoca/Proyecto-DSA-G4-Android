@@ -1,6 +1,7 @@
 package dsa.proyectoandroid.g6.Activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     }
 
-    private void changesClick(){
+    public void changesClick(View v){
         if(cont==0){
             Toast.makeText(ProfileEditActivity.this,
                     "¿Estás seguro de estos cambios? Presiona otra vez si estas de acuerdo",
@@ -44,7 +45,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
             User u = new User(id,nombre,pass1);
             UserService service = RetrofitClient.getRetrofitInstance().create(UserService.class);
-            Call<User> call = service.updateUser(u);
+            Call<User> call = service.updateUser(id,u);
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
@@ -54,7 +55,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         Toast.makeText(ProfileEditActivity.this, "Usuario Actualizado correctamente", Toast.LENGTH_LONG).show();
                         finish();
                     } else if (response.code()==404) {
-
+                        Toast.makeText(ProfileEditActivity.this,"Usuario no encontrado",Toast.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(ProfileEditActivity.this,"Error desconocido: " + response.code(),Toast.LENGTH_LONG).show();
                     }

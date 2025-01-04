@@ -55,7 +55,8 @@ public class UserAdapter {
         call.enqueue(callback);
     }
 
-    public void updateUser(User user, Callback<User> callback){
-
+    public void updateUser(String id,User user, Callback<User> callback){
+        Call<User> call = userService.updateUser(id,user);
+        call.enqueue(callback);
     }
 }
