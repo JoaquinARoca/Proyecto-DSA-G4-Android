@@ -22,7 +22,7 @@ public interface UserService {
     @POST("dsaApp/usuarios/login")
     Call<User> login(@Body User credentials);
 
-    @PUT("dsaApp/usuarios/")
-    Call<User> updateUser(String id,@Body User user);
+    @PUT("dsaApp/usuarios/{id}")
+    Call<User> updateUser(@Path("id") String id,@Body User user);
 }
 

@@ -7,10 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".Activities.Dashboard">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/infoLy"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:background="#3B83BD"
+        app:layout_constraintEnd_toEndOf="@id/infoLy"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/infoLy"
+        app:layout_constraintTop_toTopOf="@id/infoLy" >
+
+        <TextView
+            android:id="@+id/userinfotV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User info"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="151dp"
         android:layout_height="153dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="40dp"
         android:onClick="onClickShop"
         android:src="@drawable/shop"
@@ -22,9 +44,11 @@
         android:layout_width="159dp"
         android:layout_height="159dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="128dp"
         android:onClick="onClickProfile"
         app:layout_constraintEnd_toStartOf="@+id/imageButton2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package dsa.proyectoandroid.g6.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +54,8 @@ public class ProfileEditActivity extends AppCompatActivity {
                         User changedUser = response.body();
                         SavedPreferences.getInstance().setMy_user(changedUser);
                         Toast.makeText(ProfileEditActivity.this, "Usuario Actualizado correctamente", Toast.LENGTH_LONG).show();
+                        Intent Actv = new Intent(ProfileEditActivity.this, Dashboard.class);
+                        startActivity(Actv);
                         finish();
                     } else if (response.code()==404) {
                         Toast.makeText(ProfileEditActivity.this,"Usuario no encontrado",Toast.LENGTH_LONG).show();

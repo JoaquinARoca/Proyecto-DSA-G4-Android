@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent Actv = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(Actv);
                     finish();
-                } else {
+                }else if(response.code()==406){
+                    Toast.makeText(MainActivity.this,"Usuario existente, cambia nombre o contraseña",Toast.LENGTH_LONG).show();
+                }else {
                     String errorMessage = "Error al registrar usuario";
                     if (response.errorBody() != null) {
                         try {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     public void LoginActvClick(View v) {
         Intent Actv = new Intent(this, LoginActivity.class);
         startActivity(Actv);
+        finish();
     }
 
 

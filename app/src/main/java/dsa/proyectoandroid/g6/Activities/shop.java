@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dsa.proyectoandroid.g6.MainActivity;
@@ -30,78 +31,103 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class shop extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ProductAdapter adapter;
-    private ProductService productService;
-    private ProgressBar progressBar;
-    private Handler handler = new Handler();
 
-    @SuppressLint("MissingInflatedId")
+public class shop extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private ProductAdapter productAdapter;
+    private ProgressBar progressBar;
+
+    private List<Product> productList = new ArrayList<>();
+
+    private final int PROGRESS_DELAY_75 = 5000; // 5 segundos para el 75%
+    private final int PROGRESS_DELAY_100 = 3000; // 3 segundos para el 100%
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        progressBar = findViewById(R.id.progressBar);
+        // Inicializar vistas
         recyclerView = findViewById(R.id.ShopObjectsRV);
+        progressBar = findViewById(R.id.progressBar);
+
+        // Configurar RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Asegurarse de que el RecyclerView esté inicialmente invisible
         recyclerView.setVisibility(View.GONE);
+        // Simulación de carga del ProgressBar
+        simulateProgressBar();
 
-        productService = RetrofitClient.getRetrofitInstance().create(ProductService.class);
-
-        // Simula el progreso inicial hasta el 75%
-        simulateInitialProgress();
-
-        // Cargar los objetos de la API
-        loadObjects();
+        // Cargar datos de productos
+        loadProducts();
     }
 
-    private void simulateInitialProgress() {
-        new Thread(() -> {
-            for (int progress = 0; progress <= 75; progress++) {
-                final int currentProgress = progress;
-                handler.post(() -> progressBar.setProgress(currentProgress));
-                try {
-                    Thread.sleep(50); // Incremento lento
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+    private void simulateProgressBar() {
+        // Simula la carga inicial hasta el 75%
+        progressBar.setProgress(0);
+        Handler handler = new Handler();
+
+        // Incrementar hasta el 75% y mantener por 5 segundos
+        handler.postDelayed(() -> {
+            progressBar.setProgress(75);
+        }, 2000); // 2 segundos para alcanzar el 75%
+
+        handler.postDelayed(() -> {
+            progressBar.setProgress(75); // Mantener en 75% por 5 segundos
+        }, 2000 + PROGRESS_DELAY_75);
     }
 
-    private void loadObjects() {
-        Call<List<Product>> call = productService.getAllProducts();
-        call.enqueue(new Callback<List<Product>>() {
+    private void completeProgress() {
+        Handler handler = new Handler();
+
+        // Completar al 100% después de los 5 segundos del 75%
+        handler.postDelayed(() -> {
+            progressBar.setProgress(100);
+        }, PROGRESS_DELAY_75);
+
+        // Ocultar el ProgressBar después de 3 segundos en 100%
+        handler.postDelayed(() -> {
+            progressBar.setVisibility(View.GONE);
+        }, PROGRESS_DELAY_75 + PROGRESS_DELAY_100);
+
+    }
+
+    private void loadProducts() {
+        // Crear una instancia del adaptador de productos (sin datos iniciales)
+        productAdapter = new ProductAdapter(productList, this, product ->
+                Toast.makeText(this, "Producto seleccionado: " + product.getNombre(), Toast.LENGTH_SHORT).show()
+        );
+        recyclerView.setAdapter(productAdapter);
+
+        // Llamar a la API para obtener todos los productos
+        ProductAdapter productServiceAdapter = new ProductAdapter("https://tu-base-url.com/api");
+
+        productServiceAdapter.getAllProducts(new Callback<List<Product>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
-                if (response.isSuccessful()) {
-                    List<Product> productList = response.body();
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Actualizar lista de productos y notificar al adaptador
+                    productList.addAll(response.body());
+                    productAdapter.notifyDataSetChanged();
 
-                    // Configurar el adaptador con los datos recibidos
-                    adapter = new ProductAdapter(productList, product -> {
-                        // Código para comprar objetos
-                    }, shop.this);
-
-                    recyclerView.setAdapter(adapter);
-
-                    // Ocultar ProgressBar y mostrar RecyclerView
-                    progressBar.setVisibility(View.GONE);
+                    // Simular la carga completada del ProgressBar
+                    completeProgress();
+                    ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-
                 } else {
-                    Toast.makeText(shop.this, "Error al cargar productos", Toast.LENGTH_LONG).show();
+                    showError("Error al obtener productos.");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable throwable) {
-                Toast.makeText(shop.this, "Error de red: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                showError("Fallo en la conexión: " + t.getMessage());
             }
         });
     }
 
+    private void showError(String message) {
+        Toast.makeText(shop.this, message, Toast.LENGTH_SHORT).show();
+        progressBar.setProgress(0); // Reiniciar el progreso en caso de error
+    }
 }
