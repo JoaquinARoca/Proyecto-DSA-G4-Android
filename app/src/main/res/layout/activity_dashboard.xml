@@ -50,7 +50,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/configuracionbtn"
-        app:srcCompat="@drawable/Creadores" />
+        app:srcCompat="@drawable/creadores" />
 
     <ImageButton
         android:id="@+id/configuracionbtn"

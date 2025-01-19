@@ -52,7 +52,9 @@ public class Dashboard extends AppCompatActivity {
         editor.apply(); // Aplicar cambios
 
         SavedPreferences.getInstance().setMy_user(new User());
-
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void onClickMensajes(View v){
