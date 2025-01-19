@@ -37,4 +37,10 @@ public class Dashboard extends AppCompatActivity {
         startActivity(Actv);
         finish();
     }
+
+    public void onClickMensajes(View v){
+        Intent Actv = new Intent(Dashboard.this, Minimo2David.class);
+        startActivity(Actv);
+        finish();
+    }
 }

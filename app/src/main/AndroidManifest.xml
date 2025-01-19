@@ -32,6 +32,9 @@
             android:name=".Activities.LoginActivity"
             android:exported="false" /> <!-- Configuración de tu actividad principal -->
         <activity
+            android:name=".Activities.Minimo2David"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SplashScreen"
             android:exported="true">
             <intent-filter>
