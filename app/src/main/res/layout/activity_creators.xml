@@ -72,6 +72,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="Minimo2"
+        android:onClick="onClickJR"
         app:layout_constraintStart_toEndOf="@+id/Jrpng"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -82,6 +83,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="24dp"
         android:text="Minimo2"
+        android:onClick="onClickDavid"
         app:layout_constraintStart_toEndOf="@+id/Dlpng"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -92,6 +94,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="Minimo2"
+        android:onClick="onClickAdri"
         app:layout_constraintStart_toEndOf="@+id/Dlpng"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
