@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import dsa.proyectoandroid.g6.MessageAdapter;
+import dsa.proyectoandroid.g6.AdapterAndService.MessageService;
+import dsa.proyectoandroid.g6.AdapterAndService.MessageAdapter;
 import dsa.proyectoandroid.g6.R;
 import dsa.proyectoandroid.g6.RetrofitClient;
-import dsa.proyectoandroid.g6.Activities.ApiService;
 import dsa.proyectoandroid.g6.models.Message;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +34,7 @@ public class Minimo2David extends AppCompatActivity {
 
     private void fetchMessages() {
         // Obtener la instancia de Retrofit y el servicio de la API
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        MessageService apiService = RetrofitClient.getRetrofitInstance().create(MessageService.class);
 
         // Realiza la solicitud GET para obtener los mensajes
         Call<List<Message>> call = apiService.getMessages();

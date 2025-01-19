@@ -1,4 +1,4 @@
-package dsa.proyectoandroid.g6;
+package dsa.proyectoandroid.g6.AdapterAndService;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
+import dsa.proyectoandroid.g6.RetrofitClient;
 import dsa.proyectoandroid.g6.models.Product;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,11 +21,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private ProductService productService; // Servicio para acceder a la API
     private List<Product> productList; // Lista de productos a mostrar
     private OnProductClickListener listener; // Interfaz de clics
+    private List<Map<String, String>> data;
     private Context context; // Contexto de la actividad
 
     // Constructor principal para inicializar ProductService
-    public ProductAdapter(String baseUrl) {
+    public ProductAdapter() {
         this.productService = RetrofitClient.getRetrofitInstance().create(ProductService.class);
+    }
+
+    public ProductAdapter(List<Map<String, String>> data) {
+        this.data = data;
     }
 
     // Constructor para asignar la lista de productos y el listener

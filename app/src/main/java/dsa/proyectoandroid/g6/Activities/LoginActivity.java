@@ -1,22 +1,19 @@
 package dsa.proyectoandroid.g6.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import dsa.proyectoandroid.g6.MainActivity;
 import dsa.proyectoandroid.g6.R;
 import dsa.proyectoandroid.g6.RetrofitClient;
-import dsa.proyectoandroid.g6.UserAdapter;
-import dsa.proyectoandroid.g6.UserService;
+import dsa.proyectoandroid.g6.AdapterAndService.UserAdapter;
+import dsa.proyectoandroid.g6.AdapterAndService.UserService;
 import dsa.proyectoandroid.g6.models.SavedPreferences;
 import dsa.proyectoandroid.g6.models.User;
 import retrofit2.Call;
@@ -51,7 +48,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     // Código 200, iniciar nueva actividad
                     User loggedUser = response.body();
+                    //guardar preferencias
+                    guardarPreferencias(loggedUser);
                     SavedPreferences.getInstance().setMy_user(loggedUser);
+
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
                     finish();
@@ -69,6 +69,17 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void guardarPreferencias(User user) {
+        SharedPreferences preferences = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user_id", user.getId());
+        editor.putString("user_name", user.getName());
+        editor.putString("user_passwd", user.getPasswd());
+        editor.putInt("user_saldo", user.getSaldo() != null ? user.getSaldo() : 0);
+        editor.putString("user_perfil", user.getPerfil());
+        editor.apply(); // Aplicar cambios
     }
 
 }

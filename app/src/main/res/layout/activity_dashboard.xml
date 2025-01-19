@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="@id/infoLy"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/infoLy"
-        app:layout_constraintTop_toTopOf="@id/infoLy" >
+        app:layout_constraintTop_toTopOf="@id/infoLy">
 
         <TextView
             android:id="@+id/userinfotV"
@@ -29,35 +29,62 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="151dp"
-        android:layout_height="153dp"
+        android:id="@+id/Inventariobtn"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="40dp"
         android:onClick="onClickShop"
-        android:src="@drawable/shop"
+        android:src="@drawable/inventario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/CreatorsBtn"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:onClick="onClickCreators"
+        app:layout_constraintEnd_toStartOf="@+id/Inventariobtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/configuracionbtn"
+        app:srcCompat="@drawable/Creadores" />
+
+    <ImageButton
+        android:id="@+id/configuracionbtn"
         android:layout_width="159dp"
         android:layout_height="159dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="128dp"
         android:onClick="onClickProfile"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/Inventariobtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile" />
-    <Button
-        android:id="@+id/btnInbox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Bandeja de Entrada"
-        android:onClick="onClickMensajes"
-        app:layout_constraintTop_toBottomOf="@id/imageButton"
+
+    <ImageButton
+        android:id="@+id/ExitBtn"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="200dp"
+        android:onClick="onClickExit"
+        app:layout_constraintEnd_toStartOf="@+id/Inventariobtn"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/configuracionbtn"
+        app:srcCompat="@drawable/exit" />
+
+    <ImageButton
+        android:id="@+id/Juegobtn"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:onClick="onClickShop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Inventariobtn"
+        app:srcCompat="@drawable/mando" />
 </androidx.constraintlayout.widget.ConstraintLayout>

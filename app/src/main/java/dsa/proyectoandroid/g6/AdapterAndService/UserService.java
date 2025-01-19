@@ -1,4 +1,5 @@
-package dsa.proyectoandroid.g6;
+package dsa.proyectoandroid.g6.AdapterAndService;
+import dsa.proyectoandroid.g6.models.Purchase;
 import dsa.proyectoandroid.g6.models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -24,5 +25,8 @@ public interface UserService {
 
     @PUT("dsaApp/usuarios/{id}")
     Call<User> updateUser(@Path("id") String id,@Body User user);
+
+    @GET("dsaApp/usuarios/{id}/purchase")
+    Call<List<Purchase>> getCompras(@Path("id") String id);
 }
 

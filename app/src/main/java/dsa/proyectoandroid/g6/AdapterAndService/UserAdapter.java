@@ -1,15 +1,9 @@
-package dsa.proyectoandroid.g6;
+package dsa.proyectoandroid.g6.AdapterAndService;
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
+import dsa.proyectoandroid.g6.RetrofitClient;
+import dsa.proyectoandroid.g6.models.Purchase;
 import dsa.proyectoandroid.g6.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +51,11 @@ public class UserAdapter {
 
     public void updateUser(String id,User user, Callback<User> callback){
         Call<User> call = userService.updateUser(id,user);
+        call.enqueue(callback);
+    }
+
+    public void getUserObjects(String id, Callback<List<Purchase>> callback){
+        Call<List<Purchase>> call = userService.getCompras(id);
         call.enqueue(callback);
     }
 }

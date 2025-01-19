@@ -1,40 +1,37 @@
 package dsa.proyectoandroid.g6.Activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import dsa.proyectoandroid.g6.MainActivity;
-import dsa.proyectoandroid.g6.ProductAdapter;
-import dsa.proyectoandroid.g6.ProductService;
+import dsa.proyectoandroid.g6.AdapterAndService.ProductAdapter;
+import dsa.proyectoandroid.g6.AdapterAndService.UserAdapter;
 import dsa.proyectoandroid.g6.R;
-import dsa.proyectoandroid.g6.RetrofitClient;
-import dsa.proyectoandroid.g6.UserAdapter;
-import dsa.proyectoandroid.g6.UserService;
 import dsa.proyectoandroid.g6.models.Product;
+import dsa.proyectoandroid.g6.models.Purchase;
+import dsa.proyectoandroid.g6.models.SavedPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class shop extends AppCompatActivity {
+public class InventoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private UserAdapter userAdapter;
     private ProductAdapter productAdapter;
     private ProgressBar progressBar;
 
@@ -46,7 +43,7 @@ public class shop extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop);
+        setContentView(R.layout.activity_inventory);
 
         // Inicializar vistas
         recyclerView = findViewById(R.id.ShopObjectsRV);
@@ -59,7 +56,7 @@ public class shop extends AppCompatActivity {
         simulateProgressBar();
 
         // Cargar datos de productos
-        loadProducts();
+        loadProducts(SavedPreferences.getInstance().getMy_user().getId());
     }
 
     private void simulateProgressBar() {
@@ -92,42 +89,66 @@ public class shop extends AppCompatActivity {
 
     }
 
-    private void loadProducts() {
-        // Crear una instancia del adaptador de productos (sin datos iniciales)
-        productAdapter = new ProductAdapter(productList, this, product ->
-                Toast.makeText(this, "Producto seleccionado: " + product.getNombre(), Toast.LENGTH_SHORT).show()
-        );
-        recyclerView.setAdapter(productAdapter);
 
-        // Llamar a la API para obtener todos los productos
-        ProductAdapter productServiceAdapter = new ProductAdapter("https://tu-base-url.com/api");
 
-        productServiceAdapter.getAllProducts(new Callback<List<Product>>() {
+    public void loadProducts(String id) {
+        List<Map<String, String>> displayList = new ArrayList<>(); // Lista para mostrar en RecyclerView
+        userAdapter = new UserAdapter();
+        productAdapter = new ProductAdapter();
+        List<Product> products = new LinkedList<Product>();
+        productAdapter.getAllProducts(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if(response.body()!=null)
+                    products.addAll(response.body());
+            }
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+                showError("Error en la conexion: "+ throwable.getMessage());
+            }
+        });
+
+        // Obtener las compras del usuario
+        userAdapter.getUserObjects(id, new Callback<List<Purchase>>() {
+            @Override
+            public void onResponse(Call<List<Purchase>> call, Response<List<Purchase>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Actualizar lista de productos y notificar al adaptador
-                    productList.addAll(response.body());
-                    productAdapter.notifyDataSetChanged();
+                    // Mapear compras a productos con detalles completos para mostrar
+                    for (Purchase purchase : response.body()) {
+                        for (Product product : products) {
+                            if (product.getId().equals(purchase.getIdP())) {
+                                Map<String, String> item = new HashMap<>();
+                                item.put("nombre", product.getNombre());
+                                item.put("precio", String.valueOf(product.getPrecio()));
+                                item.put("cantidad", String.valueOf(purchase.getCantidad()));
+                                displayList.add(item);
+                                break;
+                            }
+                        }
+                    }
+
+                    // Configurar adaptador del RecyclerView
+                    ProductAdapter adapter = new ProductAdapter(displayList);
+                    recyclerView.setAdapter(adapter);
 
                     // Simular la carga completada del ProgressBar
                     completeProgress();
-                    ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 } else {
-                    showError("Error al obtener productos.");
+                    showError("Error al obtener las compras del usuario.");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
+            public void onFailure(Call<List<Purchase>> call, Throwable t) {
                 showError("Fallo en la conexión: " + t.getMessage());
             }
         });
     }
 
     private void showError(String message) {
-        Toast.makeText(shop.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(InventoryActivity.this, message, Toast.LENGTH_SHORT).show();
         progressBar.setProgress(0); // Reiniciar el progreso en caso de error
     }
 }

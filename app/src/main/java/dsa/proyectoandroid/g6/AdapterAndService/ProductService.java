@@ -1,4 +1,4 @@
-package dsa.proyectoandroid.g6;
+package dsa.proyectoandroid.g6.AdapterAndService;
 import java.util.List;
 
 import dsa.proyectoandroid.g6.models.Product;
